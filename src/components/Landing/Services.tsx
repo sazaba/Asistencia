@@ -164,25 +164,15 @@ export const Services = () => {
                   Explora nuestras soluciones técnicas especializadas. Diseñadas a la medida para garantizar el cumplimiento normativo y la máxima seguridad en operaciones de alto riesgo. Haz clic en cada servicio para ver los detalles.
                 </p>
 
-                <div className="hidden lg:flex items-center gap-3 text-neutral-400 text-xs font-bold tracking-widest uppercase animate-pulse mb-12">
-                  <span>Desliza para explorar</span>
-                  <ArrowDown size={16} />
-                </div>
+              
 
                 {/* Footer del Sticky */}
                 <div className="hidden lg:flex flex-col gap-5 border-t border-neutral-200/60 pt-6">
                   <div className="max-w-xs text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-tight">
-                    Asistencia Retar S.A.S - Sabaneta / Colombia / Catálogo Técnico 2026
+                    Asistencia Retar S.A.S - Sabaneta / Colombia 
                   </div>
                   <div className="flex gap-8 items-center">
-                    <div className="flex flex-col items-start">
-                      <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-tighter">Normativa</span>
-                      <span className="text-sm font-black text-neutral-900">RES. 0256</span>
-                    </div>
-                    <div className="flex flex-col items-start">
-                      <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-tighter">Estatus</span>
-                      <span className="text-sm font-black text-primary italic">ORIGINAL</span>
-                    </div>
+                
                   </div>
                 </div>
               </motion.div>
