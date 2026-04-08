@@ -309,7 +309,7 @@ export const Services = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25, duration: 0.5 }}
                 >
-                  <p className="text-lg md:text-xl text-neutral-600 font-medium leading-relaxed mb-10">
+                  <p className="text-lg md:text-xl text-neutral-600 font-medium leading-relaxed mb-10 text-justify">
                     {selected.longDesc}
                   </p>
                 </motion.div>
