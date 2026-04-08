@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 
-// 1. Importamos ambos logos
 import logoBlue from "@/assets/logoBlue.webp";
 import logoWhite from "@/assets/logoWhite.webp";
 
@@ -83,22 +82,25 @@ export const Navbar = () => {
     { name: "Marcas", href: "#marcas-inspeccionadas" },
   ];
 
+  // Animaciones más suaves y refinadas para el estilo "Premium"
   const menuVariants: Variants = {
     closed: {
       opacity: 0,
-      y: -15,
+      y: -20,
+      scale: 0.98,
       transition: { staggerChildren: 0.05, staggerDirection: -1, when: "afterChildren" },
     },
     open: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 300, damping: 30, staggerChildren: 0.07, delayChildren: 0.1 },
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 30, staggerChildren: 0.07, delayChildren: 0.05 },
     },
   };
 
   const itemVariants: Variants = {
-    closed: { opacity: 0, x: -10 },
-    open: { opacity: 1, x: 0 },
+    closed: { opacity: 0, y: 10 },
+    open: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
   };
 
   return (
@@ -108,22 +110,21 @@ export const Navbar = () => {
       } ${
         isAtTop 
           ? "bg-transparent border-transparent shadow-none py-2 md:py-4" 
-          : "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-1" 
+          : "bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm py-1" 
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ALTURA DINÁMICA: El navbar se encoge sutilmente al hacer scroll (de h-32 a h-20 en desktop) */}
         <div className={`flex justify-between items-center relative transition-all duration-300 ease-in-out ${
           isAtTop ? "h-24 sm:h-28 md:h-32" : "h-16 sm:h-20 md:h-20"
         }`}>
           
           <div className="shrink-0 flex items-center h-full py-2">
             <a href="#inicio" className="flex items-center group h-full">
-              {/* TAMAÑO DE LOGO DINÁMICO: GIGANTE cuando está arriba, ORIGINAL/PEQUEÑO cuando baja */}
               <div className={`relative transition-all duration-300 ease-in-out group-hover:scale-105 ${
                 isAtTop 
-                  ? "h-20 sm:h-24 md:h-28 w-60 sm:w-80 md:w-[26rem]" // Tamaño para el Logo Blanco
-                  : "h-12 sm:h-14 md:h-16 w-40 sm:w-48 md:w-56"       // Tamaño original para el Logo Azul
+                  ? "h-20 sm:h-24 md:h-28 w-60 sm:w-80 md:w-[26rem]" 
+                  // LOGO AZUL MÁS PEQUEÑO EN MÓVILES (h-9 y w-28) para un aspecto más limpio
+                  : "h-9 sm:h-12 md:h-16 w-28 sm:w-40 md:w-56"       
               }`}>
                 <Image 
                   src={logoWhite} 
@@ -139,7 +140,8 @@ export const Navbar = () => {
                   src={logoBlue} 
                   alt="A-Retar Logo Azul" 
                   fill
-                  sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, 224px"
+                  // Ajuste de sizes para el nuevo tamaño más pequeño en móviles
+                  sizes="(max-width: 640px) 112px, (max-width: 768px) 160px, 224px"
                   className={`object-contain object-left transition-opacity duration-300 absolute inset-0 ${
                     isAtTop ? "opacity-0" : "opacity-100"
                   }`}
@@ -189,18 +191,18 @@ export const Navbar = () => {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`focus:outline-none p-2.5 rounded-xl transition-all ${
+              className={`focus:outline-none p-2.5 rounded-2xl transition-all ${
                 isAtTop 
                   ? "text-white hover:bg-white/10" 
-                  : "text-gray-800 hover:bg-gray-100 hover:text-primary"
+                  : "text-gray-800 hover:bg-gray-100/80 hover:text-primary"
               }`}
               aria-label="Abrir menú"
             >
-              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -211,29 +213,34 @@ export const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-b border-gray-200 shadow-2xl origin-top overflow-hidden"
+            // DISEÑO PREMIUM: Tarjeta flotante en lugar de panel de pantalla completa
+            className="md:hidden absolute top-[calc(100%+0.5rem)] left-4 right-4 bg-white/95 backdrop-blur-2xl border border-white/40 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] rounded-3xl overflow-hidden origin-top"
             initial="closed"
             animate="open"
             exit="closed"
             variants={menuVariants}
           >
-            <div className="px-6 py-8 space-y-2 flex flex-col max-h-[80vh] overflow-y-auto">
+            <div className="p-5 flex flex-col space-y-1">
               {navLinks.map((link) => (
                 <motion.div key={link.name} variants={itemVariants}>
                   <a
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-4 text-xl font-extrabold text-gray-800 hover:text-primary bg-transparent hover:bg-gray-50 rounded-2xl transition-all border-b border-gray-100 last:border-none"
+                    // Enlaces más elegantes con flechas indicadoras
+                    className="flex items-center justify-between px-4 py-3.5 text-lg font-semibold text-gray-700 hover:text-primary hover:bg-gray-50/80 rounded-2xl transition-all active:scale-[0.98]"
                   >
                     {link.name}
+                    <svg className="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </a>
                 </motion.div>
               ))}
-              <motion.div variants={itemVariants} className="pt-8 pb-4">
+              <motion.div variants={itemVariants} className="pt-4 pb-2 px-2">
                 <a
                   href="#contacto"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full text-center bg-primary text-white px-6 py-4.5 rounded-full text-xl font-bold shadow-lg hover:shadow-xl active:scale-95 touch-manipulation transition-all"
+                  className="flex items-center justify-center w-full bg-primary text-white px-6 py-4 rounded-2xl text-lg font-bold shadow-md hover:shadow-lg active:scale-95 touch-manipulation transition-all"
                 >
                   Solicitar Asesoría
                 </a>
