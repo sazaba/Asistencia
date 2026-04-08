@@ -32,7 +32,6 @@ export const Hero = () => {
   };
 
   return (
-    // Se usa 100svh para evitar saltos en iOS cuando aparece/desaparece la barra de navegación de Safari
     <section id="inicio" className="relative min-h-[100svh] w-full flex flex-col justify-center items-center overflow-hidden bg-black pt-24 pb-10 md:pt-36 md:pb-12">
       
       {/* ========================================== */}
@@ -49,14 +48,12 @@ export const Hero = () => {
               opacity: { duration: 1.5, ease: "easeInOut" },
               scale: { duration: 7, ease: "linear" } 
             }}
-            // transform-gpu y will-change-transform son VITALES para la fluidez en Safari móvil
             className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
           >
             <Image
               src={images[currentIndex]}
               alt={`Fondo de inspección ${currentIndex + 1}`}
               fill
-              // sizes="100vw" evita que el móvil descargue imágenes de escritorio, mejorando la carga
               sizes="100vw"
               className="object-cover object-center"
               priority={currentIndex === 0}
@@ -77,38 +74,38 @@ export const Hero = () => {
           animate="visible"
           variants={containerVariants}
         >
-          {/* Badge superior ajustado para no romperse en pantallas pequeñas */}
+          {/* Badge: Reducido a una sola línea en móviles */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-2xl sm:rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold mb-6 md:mb-10 shadow-inner backdrop-blur-md"
+            className="inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold mb-6 md:mb-10 shadow-inner backdrop-blur-md"
           >
-            <div className="flex items-center">
-              <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <span>Respaldo Directo del Fabricante</span>
-            </div>
-            <span className="hidden sm:inline">|</span>
-            <span>+25 años de trayectoria</span>
+            <svg className="w-4 h-4 mr-1.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <span>Respaldo de Fabricante</span>
+            {/* Esta parte solo se muestra en pantallas medianas o más grandes */}
+            <span className="hidden sm:inline ml-1"> | +25 años de trayectoria</span>
           </motion.div>
 
-          {/* Título principal escalonado (text-4xl a text-7xl) */}
+          {/* Título: Aumentado en móviles (text-[3rem]/text-5xl) y con saltos de línea estratégicos */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tighter leading-[1.1] sm:leading-[0.95] mb-5 md:mb-8 px-2"
+            className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tighter leading-[0.95] mb-5 md:mb-8"
           >
-            Inspección y Certificación de <br className="hidden sm:block" /> <span className="text-primary">Equipos de Altura</span>
+            Inspección y <br className="block sm:hidden" /> Certificación de <br className="hidden sm:block" /> 
+            <span className="text-primary block mt-1.5 sm:inline sm:mt-0">Equipos de Altura</span>
           </motion.h1>
 
-          {/* Subtítulo con tamaño base en móvil */}
+          {/* Subtítulo: Se oculta la mitad del texto en móviles para no saturar la pantalla */}
           <motion.p
             variants={itemVariants}
             className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-gray-200 md:text-white mb-8 md:mb-14 leading-relaxed font-semibold md:font-bold px-2 sm:px-4"
           >
-            Especialistas en inspección rigurosa de elementos de protección contra caídas (EPCC) y gestión de tareas de alto riesgo. Garantizamos la máxima seguridad de su personal bajo estrictos estándares.
+            Especialistas en inspección rigurosa de elementos de protección contra caídas (EPCC).
+            {/* Esta frase extra solo aparece en PC y Tablets */}
+            <span className="hidden sm:inline"> Garantizamos la máxima seguridad de su personal bajo estrictos estándares.</span>
           </motion.p>
 
-          {/* Botones redimensionados para mejor usabilidad táctil en móvil */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 px-4 sm:px-0"

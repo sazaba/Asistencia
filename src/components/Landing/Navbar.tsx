@@ -86,7 +86,7 @@ export const Navbar = () => {
   const menuVariants: Variants = {
     closed: {
       opacity: 0,
-      y: -10,
+      y: -15,
       transition: { staggerChildren: 0.05, staggerDirection: -1, when: "afterChildren" },
     },
     open: {
@@ -97,8 +97,8 @@ export const Navbar = () => {
   };
 
   const itemVariants: Variants = {
-    closed: { opacity: 0, y: -5 },
-    open: { opacity: 1, y: 0 },
+    closed: { opacity: 0, x: -10 },
+    open: { opacity: 1, x: 0 },
   };
 
   return (
@@ -107,25 +107,23 @@ export const Navbar = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${
         isAtTop 
-          ? "bg-transparent border-transparent shadow-none py-2 md:py-4" // Añadido padding en desktop cuando está arriba
-          : "bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm py-1" 
+          ? "bg-transparent border-transparent shadow-none py-2 md:py-4" 
+          : "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-1" 
       }`}
     >
-      {/* ELIMINADO el overflow-hidden de aquí para no cortar el hover del logo */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* AUMENTADO el alto del contenedor (h-24 a h-28 en desktop) */}
-        <div className="flex justify-between items-center h-20 sm:h-24 md:h-28">
+        {/* 1. INCREMENTO MASIVO DEL ALTO DEL CONTENEDOR (h-24 a h-32) para dar espacio al logo */}
+        <div className="flex justify-between items-center h-24 sm:h-28 md:h-32 relative">
           
           <div className="shrink-0 flex items-center h-full py-2">
             <a href="#inicio" className="flex items-center group h-full">
-              {/* AUMENTADO significativamente el width y height del wrapper del logo */}
-              <div className="relative h-16 sm:h-20 md:h-24 w-44 sm:w-56 md:w-72 transition-transform duration-300 group-hover:scale-105">
+              {/* 2. INCREMENTO DEL TAMAÑO DEL LOGO: Ahora llega hasta w-[26rem] en desktop */}
+              <div className="relative h-20 sm:h-24 md:h-28 w-60 sm:w-80 md:w-[26rem] transition-transform duration-300 group-hover:scale-105">
                 <Image 
                   src={logoWhite} 
                   alt="A-Retar Logo Blanco" 
                   fill
-                  // Actualizados los sizes para reflejar el nuevo tamaño
-                  sizes="(max-width: 640px) 176px, (max-width: 768px) 224px, 288px"
+                  sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 416px"
                   className={`object-contain object-left transition-opacity duration-300 absolute inset-0 ${
                     isAtTop ? "opacity-100" : "opacity-0"
                   }`}
@@ -135,8 +133,7 @@ export const Navbar = () => {
                   src={logoBlue} 
                   alt="A-Retar Logo Azul" 
                   fill
-                  // Actualizados los sizes para reflejar el nuevo tamaño
-                  sizes="(max-width: 640px) 176px, (max-width: 768px) 224px, 288px"
+                  sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 416px"
                   className={`object-contain object-left transition-opacity duration-300 absolute inset-0 ${
                     isAtTop ? "opacity-0" : "opacity-100"
                   }`}
@@ -156,8 +153,8 @@ export const Navbar = () => {
               >
                 <a
                   href={link.href}
-                  className={`font-bold text-sm lg:text-base transition-colors relative group ${
-                    isAtTop ? "text-white hover:text-gray-200" : "text-gray-700 hover:text-primary"
+                  className={`font-bold text-base transition-colors relative group ${
+                    isAtTop ? "text-white hover:text-gray-200" : "text-gray-800 hover:text-primary"
                   }`}
                 >
                   {link.name}
@@ -177,25 +174,28 @@ export const Navbar = () => {
           >
             <a
               href="#contacto"
-              className="bg-primary hover:bg-primary/90 text-white px-7 py-3 rounded-full text-sm lg:text-base font-bold transition-all shadow-md hover:shadow-primary/10 active:scale-95 touch-manipulation"
+              className="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-full text-base font-bold transition-all shadow-md hover:shadow-primary/20 active:scale-95 touch-manipulation"
             >
               Solicitar Asesoría
             </a>
           </motion.div>
 
           <div className="flex items-center md:hidden">
+            {/* 3. MEJORA DEL BOTÓN HAMBURGUESA: Área táctil más grande y efectos hover sutiles */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`focus:outline-none p-2 transition-colors ${
-                isAtTop ? "text-white" : "text-gray-600 hover:text-primary"
+              className={`focus:outline-none p-2.5 rounded-xl transition-all ${
+                isAtTop 
+                  ? "text-white hover:bg-white/10" 
+                  : "text-gray-800 hover:bg-gray-100 hover:text-primary"
               }`}
               aria-label="Abrir menú"
             >
-              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -206,29 +206,31 @@ export const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden absolute top-[88px] sm:top-[104px] left-0 w-full bg-white/98 backdrop-blur-lg border-b border-gray-100 shadow-lg origin-top overflow-hidden"
+            // 4. MEJORA DEL MENÚ MÓVIL: top-full ancla el menú exactamente debajo del navbar sin importar su altura
+            className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-b border-gray-200 shadow-2xl origin-top overflow-hidden"
             initial="closed"
             animate="open"
             exit="closed"
             variants={menuVariants}
           >
-            <div className="px-5 pt-3 pb-8 space-y-1 sm:px-3 flex flex-col">
+            {/* 5. DISEÑO INTERNO MEJORADO: Más espaciado, separadores sutiles y mejor tipografía */}
+            <div className="px-6 py-8 space-y-2 flex flex-col max-h-[80vh] overflow-y-auto">
               {navLinks.map((link) => (
                 <motion.div key={link.name} variants={itemVariants}>
                   <a
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-3 py-4 text-lg font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors"
+                    className="block px-4 py-4 text-xl font-extrabold text-gray-800 hover:text-primary bg-transparent hover:bg-gray-50 rounded-2xl transition-all border-b border-gray-100 last:border-none"
                   >
                     {link.name}
                   </a>
                 </motion.div>
               ))}
-              <motion.div variants={itemVariants} className="pt-5">
+              <motion.div variants={itemVariants} className="pt-8 pb-4">
                 <a
                   href="#contacto"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block text-center bg-primary text-white px-6 py-4 rounded-full text-lg font-bold shadow-md active:scale-95 touch-manipulation"
+                  className="block w-full text-center bg-primary text-white px-6 py-4.5 rounded-full text-xl font-bold shadow-lg hover:shadow-xl active:scale-95 touch-manipulation transition-all"
                 >
                   Solicitar Asesoría
                 </a>
