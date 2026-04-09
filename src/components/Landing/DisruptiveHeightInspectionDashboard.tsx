@@ -228,8 +228,8 @@ export const Services = () => {
   if (!isMounted) return null;
 
   return (
-    // overflow-x-hidden previene que animaciones 3D rompan el ancho en celulares
-    <section className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[#f8fafc] font-sans flex flex-col items-center p-4 py-12 md:py-16 lg:py-24">
+    // CAMBIADO: bg-[#f8fafc] a bg-white para fondo blanco puro
+    <section className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-white font-sans flex flex-col items-center p-4 py-12 md:py-16 lg:py-24">
       
       {/* --- CABECERA ESTILO GALERÍA --- */}
       <motion.div 
