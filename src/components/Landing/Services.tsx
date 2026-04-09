@@ -117,15 +117,16 @@ export const Services = () => {
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
+      // Evita el rebote y scroll del fondo en navegadores móviles modernos
+      document.documentElement.style.overscrollBehavior = "none";
     } else {
       document.body.style.overflow = "unset";
-      document.body.style.touchAction = "auto";
+      document.documentElement.style.overscrollBehavior = "auto";
     }
     
     return () => {
       document.body.style.overflow = "unset";
-      document.body.style.touchAction = "auto";
+      document.documentElement.style.overscrollBehavior = "auto";
     };
   }, [selected]);
 
@@ -227,12 +228,12 @@ export const Services = () => {
       </div>
 
       {/* ========================================== */}
-      {/* POPUP PREMIUM Y 100% RESPONSIVE PARA SAFARI */}
+      {/* POPUP PREMIUM Y 100% RESPONSIVE ESTABILIZADO */}
       {/* ========================================== */}
       <AnimatePresence>
         {selected && (
-          // z-[9999] y p-4/p-6 asegura que cubra el navbar y mantenga margen
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
+          // Modificado: h-[100dvh] y w-screen para estabilizar en iOS/Android
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 h-[100dvh] w-screen">
             
             <motion.div 
               initial={{ opacity: 0 }} 
@@ -258,12 +259,11 @@ export const Services = () => {
                 y: 10,
                 transition: { duration: 0.2 }
               }}
-              // max-h-[calc(100dvh-2rem)] y flex-col son la clave para no cortar el texto
-              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] flex flex-col max-h-[calc(100dvh-2rem)] md:max-h-[85vh] transform-gpu will-change-transform"
+              // Modificado: h-auto para que crezca, pero respetando el max-height
+              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] flex flex-col h-auto max-h-[calc(100dvh-2rem)] md:max-h-[85vh] transform-gpu will-change-transform"
               style={{ WebkitTransform: "translate3d(0,0,0)", WebkitBackfaceVisibility: "hidden" }}
             >
               
-              {/* Botón Cerrar - Fijo y con fondo para asegurar visibilidad */}
               <button 
                 onClick={() => setSelected(null)} 
                 className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:bg-neutral-100 hover:scale-105 transition-all z-[80] border border-neutral-200"
@@ -272,8 +272,8 @@ export const Services = () => {
                 <X className="w-4 h-4 md:w-5 md:h-5 text-neutral-600" />
               </button>
 
-              {/* Contenedor de contenido desplazable internamente */}
-              <div className="flex-1 overflow-y-auto p-5 sm:p-8 md:p-10 custom-scrollbar relative z-10 w-full">
+              {/* Modificado: Agregado overscroll-contain para encapsular el scroll interno */}
+              <div className="flex-1 overflow-y-auto p-5 sm:p-8 md:p-10 custom-scrollbar relative z-10 w-full overscroll-contain">
                 
                 <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none -z-10" />
 
@@ -282,7 +282,7 @@ export const Services = () => {
                   <div className="relative p-4 md:p-5 bg-primary/10 rounded-[1.2rem] md:rounded-[1.5rem] text-primary shrink-0 self-start">
                     {selected.icon}
                   </div>
-                  <div className="pr-10 sm:pr-0"> {/* Padding derecho para no chocar con el botón cerrar en móvil */}
+                  <div className="pr-10 sm:pr-0">
                     <span className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-primary tracking-[0.2em] uppercase mb-2">
                       <Sparkles className="w-3 h-3" />
                       {selected.norm}
