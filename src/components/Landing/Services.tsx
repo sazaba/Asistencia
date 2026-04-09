@@ -114,11 +114,9 @@ const services: Service[] = [
 export const Services = () => {
   const [selected, setSelected] = useState<Service | null>(null);
 
-  // Evitar scroll cuando el modal está abierto
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = "hidden";
-      // Añadido para mejor soporte en iOS
       document.body.style.touchAction = "none";
     } else {
       document.body.style.overflow = "unset";
@@ -189,16 +187,12 @@ export const Services = () => {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                // transform-gpu asegura fluidez al scrollear en móvil
                 className="group relative bg-white rounded-2xl md:rounded-[2rem] p-6 md:p-10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] md:shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-neutral-200/50 hover:border-primary/30 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col justify-between transform-gpu will-change-transform"
                 style={{ WebkitBackfaceVisibility: "hidden" }}
               >
-                {/* Fondo sutil hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="flex flex-col sm:flex-row gap-5 md:gap-8 items-start relative z-10">
-                  
-                  {/* Icono */}
                   <div className="relative shrink-0 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl bg-neutral-50 text-neutral-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm group-hover:shadow-primary/20">
                     {s.icon}
                   </div>
@@ -233,14 +227,13 @@ export const Services = () => {
       </div>
 
       {/* ========================================== */}
-      {/* POPUP OPTIMIZADO PARA SAFARI & MOBILE */}
+      {/* POPUP PREMIUM Y 100% RESPONSIVE PARA SAFARI */}
       {/* ========================================== */}
       <AnimatePresence>
         {selected && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-6">
-            {/* BACKDROP: En Safari, animar un backdrop-filter rompe el framerate.
-              Solución: Dejamos el filtro estático y solo animamos la opacidad. 
-            */}
+          // z-[9999] y p-4/p-6 asegura que cubra el navbar y mantenga margen
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
+            
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
@@ -251,7 +244,6 @@ export const Services = () => {
               style={{ WebkitBackfaceVisibility: "hidden" }}
             />
             
-            {/* Modal - Eliminado backdrop-blur interno que ahogaba el procesador móvil */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ 
@@ -266,45 +258,48 @@ export const Services = () => {
                 y: 10,
                 transition: { duration: 0.2 }
               }}
-              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] max-h-[85vh] md:max-h-[90vh] flex flex-col transform-gpu will-change-transform"
+              // max-h-[calc(100dvh-2rem)] y flex-col son la clave para no cortar el texto
+              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] flex flex-col max-h-[calc(100dvh-2rem)] md:max-h-[85vh] transform-gpu will-change-transform"
               style={{ WebkitTransform: "translate3d(0,0,0)", WebkitBackfaceVisibility: "hidden" }}
             >
               
-              <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
-
-              {/* Botón Cerrar */}
+              {/* Botón Cerrar - Fijo y con fondo para asegurar visibilidad */}
               <button 
                 onClick={() => setSelected(null)} 
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 rounded-full bg-white shadow-sm hover:bg-neutral-100 transition-all z-[80] border border-neutral-200"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:bg-neutral-100 hover:scale-105 transition-all z-[80] border border-neutral-200"
                 aria-label="Cerrar modal"
               >
                 <X className="w-4 h-4 md:w-5 md:h-5 text-neutral-600" />
               </button>
 
-              <div className="p-6 md:p-10 overflow-y-auto relative z-10 custom-scrollbar overscroll-contain pb-10">
+              {/* Contenedor de contenido desplazable internamente */}
+              <div className="flex-1 overflow-y-auto p-5 sm:p-8 md:p-10 custom-scrollbar relative z-10 w-full">
+                
+                <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none -z-10" />
+
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mb-6 md:mb-8 mt-2 md:mt-0">
                   <div className="relative p-4 md:p-5 bg-primary/10 rounded-[1.2rem] md:rounded-[1.5rem] text-primary shrink-0 self-start">
                     {selected.icon}
                   </div>
-                  <div>
+                  <div className="pr-10 sm:pr-0"> {/* Padding derecho para no chocar con el botón cerrar en móvil */}
                     <span className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-primary tracking-[0.2em] uppercase mb-2">
                       <Sparkles className="w-3 h-3" />
                       {selected.norm}
                     </span>
-                    <h2 className="text-2xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-tight md:leading-[1.1]">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-tight">
                       {selected.title}
                     </h2>
                   </div>
                 </div>
 
                 {/* Descripción Principal */}
-                <p className="text-base md:text-xl text-neutral-600 font-medium leading-relaxed mb-8 md:mb-10 text-left">
+                <p className="text-base md:text-lg text-neutral-600 font-medium leading-relaxed mb-8 md:mb-10 text-left">
                   {selected.longDesc}
                 </p>
 
-                {/* Grid de Características - Simplificado visualmente para móviles */}
-                <div className="mb-8 md:mb-12">
+                {/* Grid de Características */}
+                <div className="mb-8 md:mb-10">
                   <div className="flex items-center gap-4 mb-5">
                     <span className="h-[1px] flex-1 bg-neutral-200"></span>
                     <h4 className="text-[9px] md:text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase px-2 text-center">
@@ -313,29 +308,30 @@ export const Services = () => {
                     <span className="h-[1px] flex-1 bg-neutral-200"></span>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     {selected.features.map((f, idx) => (
                       <div 
                         key={idx}
-                        // Fondo sólido suave en vez de desenfoque para máxima fluidez
-                        className="flex items-start gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-neutral-50 border border-neutral-100 shadow-sm"
+                        className="flex items-start gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-neutral-50 border border-neutral-100/80 shadow-sm"
                       >
                         <div className="mt-0.5 shrink-0 bg-primary/10 p-1 rounded-full">
-                          <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+                          <CheckCircle2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
                         </div>
-                        <span className="text-xs md:text-sm font-bold text-neutral-700 leading-tight">{f}</span>
+                        <span className="text-[13px] md:text-sm font-bold text-neutral-700 leading-snug">{f}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Botón Final */}
-                <button 
-                  className="w-full relative overflow-hidden py-4 md:py-5 bg-neutral-900 text-white rounded-xl md:rounded-[2rem] font-bold text-base md:text-lg shadow-xl shadow-neutral-900/10 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 md:gap-3"
-                >
-                  Solicitar Asesoría
-                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-neutral-400" />
-                </button>
+                <div className="pt-2 pb-2">
+                  <button 
+                    className="w-full relative overflow-hidden py-4 md:py-5 bg-neutral-900 text-white rounded-xl md:rounded-[1.5rem] font-bold text-base md:text-lg shadow-xl shadow-neutral-900/15 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 md:gap-3"
+                  >
+                    Solicitar Asesoría
+                    <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-neutral-400" />
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -343,12 +339,11 @@ export const Services = () => {
       </AnimatePresence>
 
       <style dangerouslySetInnerHTML={{__html: `
-        /* Scrollbar suave para iOS/Safari */
         .custom-scrollbar {
           -webkit-overflow-scrolling: touch;
         }
         .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
+          width: 5px;
         }
         @media (min-width: 768px) {
           .custom-scrollbar::-webkit-scrollbar {
@@ -357,9 +352,11 @@ export const Services = () => {
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
+          margin-top: 10px;
+          margin-bottom: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #e2e8f0;
+          background-color: #cbd5e1;
           border-radius: 20px;
         }
       `}} />
