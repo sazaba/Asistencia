@@ -117,7 +117,6 @@ export const Services = () => {
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = "hidden";
-      // Evita el rebote y scroll del fondo en navegadores móviles modernos
       document.documentElement.style.overscrollBehavior = "none";
     } else {
       document.body.style.overflow = "unset";
@@ -228,12 +227,12 @@ export const Services = () => {
       </div>
 
       {/* ========================================== */}
-      {/* POPUP PREMIUM Y 100% RESPONSIVE ESTABILIZADO */}
+      {/* POPUP ESTABILIZADO CONTRA RESIZE DEL NAVBAR */}
       {/* ========================================== */}
       <AnimatePresence>
         {selected && (
-          // Modificado: h-[100dvh] y w-screen para estabilizar en iOS/Android
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 h-[100dvh] w-screen">
+          // 1. CAMBIO AQUÍ: Eliminamos el h-[100dvh] fijo. Dejamos que inset-0 y los env() anclen el modal al espacio visual real disponible.
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
             
             <motion.div 
               initial={{ opacity: 0 }} 
@@ -259,8 +258,8 @@ export const Services = () => {
                 y: 10,
                 transition: { duration: 0.2 }
               }}
-              // Modificado: h-auto para que crezca, pero respetando el max-height
-              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] flex flex-col h-auto max-h-[calc(100dvh-2rem)] md:max-h-[85vh] transform-gpu will-change-transform"
+              // 2. CAMBIO AQUÍ: Reemplazamos la lógica de alturas estáticas por max-h-full, asegurando que crezca solo hasta donde el wrapper se lo permite sin reventarse.
+              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] flex flex-col h-auto max-h-full md:max-h-[85vh] transform-gpu will-change-transform"
               style={{ WebkitTransform: "translate3d(0,0,0)", WebkitBackfaceVisibility: "hidden" }}
             >
               
@@ -272,7 +271,7 @@ export const Services = () => {
                 <X className="w-4 h-4 md:w-5 md:h-5 text-neutral-600" />
               </button>
 
-              {/* Modificado: Agregado overscroll-contain para encapsular el scroll interno */}
+              {/* Mantenemos overscroll-contain para encapsular el scroll interno */}
               <div className="flex-1 overflow-y-auto p-5 sm:p-8 md:p-10 custom-scrollbar relative z-10 w-full overscroll-contain">
                 
                 <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none -z-10" />
