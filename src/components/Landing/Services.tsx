@@ -13,7 +13,6 @@ import {
   ArrowUpRight,
   X,
   CheckCircle2,
-  ArrowDown,
   Sparkles
 } from "lucide-react";
 
@@ -119,26 +118,30 @@ export const Services = () => {
   useEffect(() => {
     if (selected) {
       document.body.style.overflow = "hidden";
+      // Añadido para mejor soporte en iOS
+      document.body.style.touchAction = "none";
     } else {
       document.body.style.overflow = "unset";
+      document.body.style.touchAction = "auto";
     }
     
     return () => {
       document.body.style.overflow = "unset";
+      document.body.style.touchAction = "auto";
     };
   }, [selected]);
 
   return (
-    <section id="servicios" className="py-24 bg-[#FBFBFD] relative selection:bg-primary/20 selection:text-primary">
+    <section id="servicios" className="py-16 md:py-24 bg-[#FBFBFD] relative selection:bg-primary/20 selection:text-primary">
       
       {/* Elementos Decorativos de Fondo */}
       <div className="absolute inset-0 opacity-[0.15] pointer-events-none z-0" 
            style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
       />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 relative z-10">
         
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
           
           {/* COLUMNA IZQUIERDA: Sticky Content */}
           <div className="lg:w-5/12 flex flex-col items-start relative">
@@ -149,30 +152,25 @@ export const Services = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="w-12 h-[1.5px] bg-primary"></span>
-                  <span className="text-primary font-black tracking-[0.3em] text-[10px] uppercase">
+                <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                  <span className="w-8 md:w-12 h-[1.5px] bg-primary"></span>
+                  <span className="text-primary font-black tracking-[0.2em] md:tracking-[0.3em] text-[9px] md:text-[10px] uppercase">
                     Technical Solutions
                   </span>
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-neutral-900 leading-[1.1] mb-6">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-neutral-900 leading-[1.1] mb-4 md:mb-6">
                   Portafolio <span className="text-neutral-300 font-light italic">Digital</span>
                 </h2>
                 
-                <p className="text-neutral-600 text-lg font-medium leading-relaxed mb-10 max-w-md">
-                  Explora nuestras soluciones técnicas especializadas. Diseñadas a la medida para garantizar el cumplimiento normativo y la máxima seguridad en operaciones de alto riesgo. Haz clic en cada servicio para ver los detalles.
+                <p className="text-neutral-600 text-base md:text-lg font-medium leading-relaxed mb-8 max-w-md">
+                  Explora nuestras soluciones técnicas especializadas. Diseñadas a la medida para garantizar el cumplimiento normativo y la máxima seguridad en operaciones de alto riesgo.
                 </p>
-
-              
 
                 {/* Footer del Sticky */}
                 <div className="hidden lg:flex flex-col gap-5 border-t border-neutral-200/60 pt-6">
                   <div className="max-w-xs text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-tight">
                     Asistencia Retar S.A.S - Sabaneta / Colombia 
-                  </div>
-                  <div className="flex gap-8 items-center">
-                
                   </div>
                 </div>
               </motion.div>
@@ -180,7 +178,7 @@ export const Services = () => {
           </div>
 
           {/* COLUMNA DERECHA: Scrolling Cards */}
-          <div className="lg:w-7/12 flex flex-col gap-5 md:gap-6 pb-24">
+          <div className="lg:w-7/12 flex flex-col gap-4 md:gap-6 pb-16 md:pb-24">
             {services.map((s, index) => (
               <motion.div
                 key={s.id}
@@ -188,18 +186,20 @@ export const Services = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-5%" }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-neutral-200/50 hover:border-primary/30 transition-all duration-500 overflow-hidden cursor-pointer flex flex-col justify-between"
+                // transform-gpu asegura fluidez al scrollear en móvil
+                className="group relative bg-white rounded-2xl md:rounded-[2rem] p-6 md:p-10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] md:shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-neutral-200/50 hover:border-primary/30 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col justify-between transform-gpu will-change-transform"
+                style={{ WebkitBackfaceVisibility: "hidden" }}
               >
                 {/* Fondo sutil hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="flex flex-col sm:flex-row gap-6 md:gap-8 items-start relative z-10">
+                <div className="flex flex-col sm:flex-row gap-5 md:gap-8 items-start relative z-10">
                   
-                  {/* Icono con hover animado */}
-                  <div className="relative shrink-0 w-16 h-16 flex items-center justify-center rounded-2xl bg-neutral-50 text-neutral-400 group-hover:bg-primary group-hover:text-white transition-colors duration-500 shadow-sm group-hover:shadow-primary/20">
+                  {/* Icono */}
+                  <div className="relative shrink-0 w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl bg-neutral-50 text-neutral-400 group-hover:bg-primary group-hover:text-white transition-colors duration-300 shadow-sm group-hover:shadow-primary/20">
                     {s.icon}
                   </div>
 
@@ -209,23 +209,23 @@ export const Services = () => {
                         <span className="text-xs font-mono font-bold text-neutral-300">PAG. {s.id}</span>
                       </div>
                       {s.detail && (
-                        <span className="text-[9px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-full text-right">
+                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded-full text-right">
                           {s.detail}
                         </span>
                       )}
                     </div>
                     
-                    <h3 className="text-xl md:text-2xl font-bold text-neutral-900 group-hover:text-primary transition-colors mb-3 pr-8">
+                    <h3 className="text-lg md:text-2xl font-bold text-neutral-900 group-hover:text-primary transition-colors mb-2 md:mb-3 pr-6">
                       {s.title}
                     </h3>
                     
-                    <p className="text-sm text-neutral-500 font-medium leading-relaxed">
+                    <p className="text-xs md:text-sm text-neutral-500 font-medium leading-relaxed line-clamp-3 md:line-clamp-none">
                       {s.desc}
                     </p>
                   </div>
                 </div>
 
-                <ArrowUpRight className="absolute bottom-8 right-8 w-5 h-5 text-neutral-300 group-hover:text-primary transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                <ArrowUpRight className="absolute bottom-6 right-6 md:bottom-8 md:right-8 w-4 h-4 md:w-5 md:h-5 text-neutral-300 group-hover:text-primary transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
               </motion.div>
             ))}
           </div>
@@ -233,131 +233,109 @@ export const Services = () => {
       </div>
 
       {/* ========================================== */}
-      {/* POPUP REINVENTADO (ANIMACIÓN PREMIUM) */}
+      {/* POPUP OPTIMIZADO PARA SAFARI & MOBILE */}
       {/* ========================================== */}
       <AnimatePresence>
         {selected && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-6">
-            {/* Backdrop con Blur Fuerte */}
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-6">
+            {/* BACKDROP: En Safari, animar un backdrop-filter rompe el framerate.
+              Solución: Dejamos el filtro estático y solo animamos la opacidad. 
+            */}
             <motion.div 
-              initial={{ opacity: 0, backdropFilter: "blur(0px)" }} 
-              animate={{ opacity: 1, backdropFilter: "blur(12px)" }} 
-              exit={{ opacity: 0, backdropFilter: "blur(0px)" }} 
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              transition={{ duration: 0.3 }}
               onClick={() => setSelected(null)}
-              className="absolute inset-0 bg-neutral-900/40 cursor-zoom-out"
+              className="absolute inset-0 bg-neutral-900/60 backdrop-blur-md cursor-zoom-out transform-gpu"
+              style={{ WebkitBackfaceVisibility: "hidden" }}
             />
             
-            {/* Modal Premium con gradientes y cristal */}
+            {/* Modal - Eliminado backdrop-blur interno que ahogaba el procesador móvil */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ 
                 opacity: 1, 
                 scale: 1, 
                 y: 0,
-                transition: { 
-                  type: "spring", 
-                  stiffness: 250, 
-                  damping: 25,
-                  mass: 0.5
-                }
+                transition: { type: "spring", stiffness: 300, damping: 30 }
               }}
               exit={{ 
                 opacity: 0, 
                 scale: 0.95, 
-                y: 15,
-                transition: { duration: 0.25, ease: "easeInOut" }
+                y: 10,
+                transition: { duration: 0.2 }
               }}
-              className="relative w-full max-w-2xl bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] overflow-hidden border border-white z-[70] max-h-[90vh] flex flex-col"
+              className="relative w-full max-w-2xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl overflow-hidden z-[70] max-h-[85vh] md:max-h-[90vh] flex flex-col transform-gpu will-change-transform"
+              style={{ WebkitTransform: "translate3d(0,0,0)", WebkitBackfaceVisibility: "hidden" }}
             >
               
-              {/* Resplandor decorativo de fondo */}
-              <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+              <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
 
-              {/* Botón Cerrar Flotante */}
+              {/* Botón Cerrar */}
               <button 
                 onClick={() => setSelected(null)} 
-                className="absolute top-6 right-6 p-3 rounded-full bg-white/80 backdrop-blur shadow-sm hover:bg-neutral-100 hover:shadow-md transition-all duration-300 z-[80] group border border-neutral-200/50"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 rounded-full bg-white shadow-sm hover:bg-neutral-100 transition-all z-[80] border border-neutral-200"
+                aria-label="Cerrar modal"
               >
-                <X className="w-5 h-5 text-neutral-500 group-hover:text-neutral-900 group-hover:rotate-90 transition-all duration-300" />
+                <X className="w-4 h-4 md:w-5 md:h-5 text-neutral-600" />
               </button>
 
-              <div className="p-8 md:p-14 overflow-y-auto relative z-10 custom-scrollbar">
-                {/* Header Animado */}
-                <motion.div 
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.15, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8"
-                >
-                  <div className="relative p-5 bg-gradient-to-br from-primary/20 to-primary/5 rounded-[1.5rem] text-primary shrink-0 border border-primary/10 shadow-inner">
-                    <div className="absolute inset-0 bg-white/40 rounded-[1.5rem] blur-sm -z-10"></div>
+              <div className="p-6 md:p-10 overflow-y-auto relative z-10 custom-scrollbar overscroll-contain pb-10">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mb-6 md:mb-8 mt-2 md:mt-0">
+                  <div className="relative p-4 md:p-5 bg-primary/10 rounded-[1.2rem] md:rounded-[1.5rem] text-primary shrink-0 self-start">
                     {selected.icon}
                   </div>
                   <div>
-                    <span className="flex items-center gap-2 text-[10px] font-black text-primary tracking-[0.3em] uppercase mb-2">
+                    <span className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-primary tracking-[0.2em] uppercase mb-2">
                       <Sparkles className="w-3 h-3" />
                       {selected.norm}
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-[1.1]">{selected.title}</h2>
+                    <h2 className="text-2xl md:text-4xl font-black text-neutral-900 tracking-tighter leading-tight md:leading-[1.1]">
+                      {selected.title}
+                    </h2>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Descripción Principal */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25, duration: 0.5 }}
-                >
-                  <p className="text-lg md:text-xl text-neutral-600 font-medium leading-relaxed mb-10 text-justify">
-                    {selected.longDesc}
-                  </p>
-                </motion.div>
+                <p className="text-base md:text-xl text-neutral-600 font-medium leading-relaxed mb-8 md:mb-10 text-left">
+                  {selected.longDesc}
+                </p>
 
-                {/* Grid de Características Glassmorphism */}
-                <div className="mb-12">
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.35 }}
-                    className="flex items-center gap-4 mb-6"
-                  >
+                {/* Grid de Características - Simplificado visualmente para móviles */}
+                <div className="mb-8 md:mb-12">
+                  <div className="flex items-center gap-4 mb-5">
                     <span className="h-[1px] flex-1 bg-neutral-200"></span>
-                    <h4 className="text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase px-2">
-                      Beneficios y Alcance
+                    <h4 className="text-[9px] md:text-[10px] font-black text-neutral-400 tracking-[0.2em] uppercase px-2 text-center">
+                      Beneficios
                     </h4>
                     <span className="h-[1px] flex-1 bg-neutral-200"></span>
-                  </motion.div>
+                  </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     {selected.features.map((f, idx) => (
-                      <motion.div 
+                      <div 
                         key={idx}
-                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ delay: 0.4 + (idx * 0.08), type: "spring", stiffness: 200 }}
-                        className="flex items-start gap-4 p-5 rounded-2xl bg-white/60 backdrop-blur-md border border-neutral-200/60 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.1)] hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
+                        // Fondo sólido suave en vez de desenfoque para máxima fluidez
+                        className="flex items-start gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-neutral-50 border border-neutral-100 shadow-sm"
                       >
                         <div className="mt-0.5 shrink-0 bg-primary/10 p-1 rounded-full">
-                          <CheckCircle2 className="w-4 h-4 text-primary" />
+                          <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                         </div>
-                        <span className="text-sm font-bold text-neutral-700 leading-tight">{f}</span>
-                      </motion.div>
+                        <span className="text-xs md:text-sm font-bold text-neutral-700 leading-tight">{f}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Botón Final Premium */}
-                <motion.button 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="w-full relative overflow-hidden py-5 bg-neutral-900 text-white rounded-[2rem] font-black text-lg shadow-2xl shadow-neutral-900/20 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                {/* Botón Final */}
+                <button 
+                  className="w-full relative overflow-hidden py-4 md:py-5 bg-neutral-900 text-white rounded-xl md:rounded-[2rem] font-bold text-base md:text-lg shadow-xl shadow-neutral-900/10 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 md:gap-3"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                   Solicitar Asesoría
-                  <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-                </motion.button>
+                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-neutral-400" />
+                </button>
               </div>
             </motion.div>
           </div>
@@ -365,14 +343,23 @@ export const Services = () => {
       </AnimatePresence>
 
       <style dangerouslySetInnerHTML={{__html: `
+        /* Scrollbar suave para iOS/Safari */
+        .custom-scrollbar {
+          -webkit-overflow-scrolling: touch;
+        }
         .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
+          width: 4px;
+        }
+        @media (min-width: 768px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #cbd5e1;
+          background-color: #e2e8f0;
           border-radius: 20px;
         }
       `}} />
