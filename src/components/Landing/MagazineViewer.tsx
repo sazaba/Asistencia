@@ -107,7 +107,8 @@ const TechTextBlock = ({ icon: Icon, title, desc }: { icon: any, title: string, 
 
 export default function MagazineViewer() {
   return (
-    <section className="py-12 sm:py-20 md:py-32 bg-gradient-to-b from-[#F4F4F8] to-[#EAEAF0] relative flex flex-col items-center justify-center min-h-full overflow-hidden pb-[calc(5rem+env(safe-area-inset-bottom))]">
+    // Se cambió el bg-gradient por bg-white puro
+    <section className="py-12 sm:py-20 md:py-32 bg-white relative flex flex-col items-center justify-center min-h-full overflow-hidden pb-[calc(5rem+env(safe-area-inset-bottom))]">
       
       {/* Fondo con textura de lujo */}
       <div className="absolute inset-0 opacity-[0.15] pointer-events-none z-0" 
