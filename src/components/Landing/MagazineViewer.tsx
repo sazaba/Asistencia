@@ -99,29 +99,29 @@ const TechTextBlock = ({ icon: Icon, title, desc }: { icon: any, title: string, 
 export default function MagazineViewer() {
   return (
     // pb-[env(safe-area-inset-bottom)] protege el contenido de la barra de inicio de iPhone
-    <section className="py-10 sm:py-20 md:py-32 bg-transparent md:bg-[#FBFBFD] relative flex flex-col items-center justify-center min-h-full overflow-hidden pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
+    <section className="py-10 sm:py-20 md:py-32 bg-[#FBFBFD] md:bg-[#FBFBFD] relative flex flex-col items-center justify-center min-h-full overflow-hidden pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
       
-      {/* Fondo con textura sutil (oculto en móvil para ahorrar recursos, el bg del wrapper cubre) */}
-      <div className="hidden md:block absolute inset-0 opacity-[0.2] pointer-events-none z-0" 
+      {/* Fondo con textura sutil */}
+      <div className="absolute inset-0 opacity-[0.2] pointer-events-none z-0" 
            style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
       />
 
       <div className="relative z-10 w-full flex flex-col items-center justify-center h-full px-2 sm:px-4 md:px-8">
         
-        {/* Cabecera adaptada */}
+        {/* Cabecera adaptada: Textos SIEMPRE oscuros/visibles */}
         <div className="text-center mb-8 md:mb-24 px-4 shrink-0 mt-4 md:mt-0">
           <div className="flex items-center justify-center gap-3 md:gap-5 mb-4 md:mb-6">
             <span className="w-8 md:w-12 h-[2px] md:h-[2.5px] bg-primary transition-all duration-500 hover:w-20"></span>
-            <span className="text-primary font-black tracking-[0.3em] md:tracking-[0.4em] text-[9px] sm:text-[11px] md:text-sm uppercase text-white md:text-primary">
+            <span className="text-primary font-black tracking-[0.3em] md:tracking-[0.4em] text-[9px] sm:text-[11px] md:text-sm uppercase">
               Blindaje de Proyectos
             </span>
             <span className="w-8 md:w-12 h-[2px] md:h-[2.5px] bg-primary transition-all duration-500 hover:w-20"></span>
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white md:text-neutral-950 leading-[1.1]">
-            Catálogo <span className="text-neutral-300 md:text-neutral-400 font-light italic">de Operaciones</span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-neutral-950 leading-[1.1]">
+            Catálogo <span className="text-neutral-400 font-light italic">de Operaciones</span>
           </h2>
-          <div className="inline-flex items-center justify-center gap-2 md:gap-3 mt-6 md:mt-8 px-4 md:px-6 py-2 md:py-3 bg-white/10 md:bg-white rounded-full border border-white/20 md:border-neutral-200/50 shadow-sm text-white md:text-neutral-600 text-[10px] md:text-sm font-bold tracking-widest uppercase animate-pulse backdrop-blur-sm md:backdrop-blur-none">
-            <MousePointerClick className="w-4 h-4 md:w-5 md:h-5 shrink-0 text-white md:text-primary" />
+          <div className="inline-flex items-center justify-center gap-2 md:gap-3 mt-6 md:mt-8 px-4 md:px-6 py-2 md:py-3 bg-white rounded-full border border-neutral-200/50 shadow-sm text-neutral-600 text-[10px] md:text-sm font-bold tracking-widest uppercase animate-pulse">
+            <MousePointerClick className="w-4 h-4 md:w-5 md:h-5 shrink-0 text-primary" />
             <span>Desliza para explorar</span>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function MagazineViewer() {
           {/* LETRERO A LA IZQUIERDA (Solo Desktop) */}
           <div className="hidden lg:flex absolute left-0 xl:-left-20 top-1/2 -translate-y-1/2 flex-col items-end gap-3 z-0 pointer-events-none">
             <div className="text-right">
-              <span className="block text-7xl xl:text-8xl font-black text-white md:text-neutral-900 tracking-tighter leading-[0.85]">
+              <span className="block text-7xl xl:text-8xl font-black text-neutral-900 tracking-tighter leading-[0.85]">
                 ABRE
               </span>
               <span className="block text-5xl xl:text-6xl font-extrabold text-neutral-400 tracking-tight leading-[0.9]">
@@ -143,7 +143,7 @@ export default function MagazineViewer() {
               </span>
             </div>
             <div className="flex items-center gap-5 mt-8">
-              <span className="text-sm font-bold tracking-[0.25em] text-neutral-300 md:text-neutral-500 uppercase">
+              <span className="text-sm font-bold tracking-[0.25em] text-neutral-500 uppercase">
                 Haz clic en la esquina
               </span>
               <div className="p-4 bg-primary text-white rounded-full animate-bounce shadow-[0_20px_40px_rgba(var(--primary),0.3)]">
